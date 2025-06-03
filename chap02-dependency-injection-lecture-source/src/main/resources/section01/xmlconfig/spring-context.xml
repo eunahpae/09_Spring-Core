@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!--
+    [Bean 정의: account]
+    id: account
+    class: com.ohgiraffers.common.PersonalAccount
+    설명:
+      - 개인 계좌 정보를 담는 Bean 객체 정의
+      - 생성자를 통해 계좌 번호와 초기 잔액 값을 주입
+  -->
+  <bean id="account" class="com.ohgiraffers.common.PersonalAccount">
+    <!-- 생성자 index 0: 계좌 번호 (String) -->
+    <constructor-arg index="0" value="110-234-567890"/>
+    <!-- 생성자 index 1: 초기 잔액 (int) -->
+    <constructor-arg index="1" value="0"/>
+  </bean>
+
+  <!--
+    [Bean 정의: member]
+    ※ 아래 주석 처리된 부분은 생성자 주입 방식의 예시임
+    생성자 주입 방식(Constructor Injection)은 객체 생성 시점에 필요한 의존성을 전달하며,
+    해당 클래스에 명시된 생성자 파라미터 순서나 이름에 따라 정확히 주입되어야 함
+
+    <bean id="member" class="com.ohgiraffers.common.MemberDTO">
+      <constructor-arg name="sequence" value="1"/>
+      <constructor-arg name="name" value="홍길동"/>
+      <constructor-arg name="phone" value="010-1234-5678"/>
+      <constructor-arg name="email" value="hong123@gmail.com"/>
+      <constructor-arg name="personalAccount" ref="account"/>
+    </bean>
+  -->
+
+  <!--
+    [Bean 정의: member]
+    id: member
+    class: com.ohgiraffers.common.MemberDTO
+    설명:
+      - 회원 정보를 표현하는 Bean 객체 정의
+      - Setter 메서드를 이용한 의존성 주입 방식(Setter Injection) 사용
+      - 각 프로퍼티(property) 이름은 해당 클래스의 setter 메서드명과 매핑됨
+        예: setSequence(int), setName(String) 등
+  -->
+  <bean id="member" class="com.ohgiraffers.common.MemberDTO">
+    <property name="sequence" value="1"/>
+    <property name="name" value="홍길동"/>
+    <property name="phone" value="010-123-4567"/>
+    <property name="email" value="hong123@gmail.com"/>
+    <!-- 개인 계좌 정보를 참조하여 주입 (위에서 정의한 account Bean 참조) -->
+    <property name="personalAccount" ref="account"/>
+  </bean>
+
+</beans>
